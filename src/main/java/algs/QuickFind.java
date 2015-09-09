@@ -102,5 +102,8 @@ public class QuickFind {
     stringBuilder.append("\n}");
     return stringBuilder.toString();
   }
-
+ 
+  public int size() {
+    return id.length;
+  }
 }

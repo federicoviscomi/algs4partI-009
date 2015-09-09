@@ -5,11 +5,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
-public class AppTest {
+public class QuickUnionTest {
 
   @Test
   public void testQuickFind() {
-    QuickFind uf = new QuickFind(10);
+    QuickUnion uf = new QuickUnion(10);
     int[][] input = new int[][] {
       new int[] {4, 3},
       new int[] {3, 8},
@@ -38,7 +38,7 @@ public class AppTest {
 
   @Test
   public void testEmptyAllNotConnected() {
-    QuickFind qf = new QuickFind(10);
+    QuickUnion qf = new QuickUnion(10);
     for (int i = 0; i < qf.size(); i++) {
       for (int j = 0; j < qf.size(); j++) {
         if (i != j) {
@@ -50,12 +50,12 @@ public class AppTest {
 
   @Test(expected=IllegalArgumentException.class)
   public void testOutOfBoundConstructor() {
-    QuickFind qf = new QuickFind(-1);
+    QuickUnion qf = new QuickUnion(-1);
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void testOutOfBoundUnion() {
-    QuickFind qf = new QuickFind(10);
+    QuickUnion qf = new QuickUnion(10);
     qf.union(0, qf.size());
   }
   
