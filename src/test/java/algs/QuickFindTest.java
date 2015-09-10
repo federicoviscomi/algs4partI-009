@@ -8,6 +8,23 @@ import static org.junit.Assert.assertTrue;
 public class QuickFindTest {
 
     @Test
+    public void testWeek1AssessmentUnionFindQuestion1Seed918325() {
+        QuickFind qf = new QuickFind(10);
+        int[][] input = new int[][] {
+                new int[]{4, 9},
+                new int[]{8, 2},
+                new int[]{9, 6},
+                new int[]{6, 0},
+                new int[]{9, 2},
+                new int[]{8, 5},
+        };
+        for (int[] inputPair : input) {
+            qf.union(inputPair[0], inputPair[1]);
+        }        
+        System.out.println(qf);
+    }
+
+    @Test
     public void testQuickFind() {
         QuickFind uf = new QuickFind(10);
         int[][] input = new int[][]{
