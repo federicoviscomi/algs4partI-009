@@ -7,7 +7,7 @@ public class QuickFind {
     private static final String FORMAT_STRING = "%2.2s ";
 
     @NotNull
-    private final int[] id;
+    final int[] id;
 
     public QuickFind(int n) {
         if (n < 0) {
