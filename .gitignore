@@ -1,3 +1,6 @@
+*.zip
+*.jar
+.idea/
 *.iml
 *.class
 *.swp

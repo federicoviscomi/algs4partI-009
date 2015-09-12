@@ -12,7 +12,7 @@ public class Percolation {
     private final int n;
 
     public Percolation(int n) {
-        if (n < 0) {
+        if (n <= 0) {
             throw new IllegalArgumentException();
         }
         this.n = n;
@@ -29,14 +29,14 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         row--;
         col--;
-        checkMatrixBounds(row, col);
+        //checkMatrixBounds(row, col);
         return open[row][col];
     }
 
     public boolean isFull(int row, int col) {
         row--;
         col--;
-        checkMatrixBounds(row, col);
+        //checkMatrixBounds(row, col);
         return weightedQuickUnionUF.connected(matrixToLinear(row, col), virtualTop);
     }
 
@@ -47,16 +47,16 @@ public class Percolation {
     public void open(int row, int col) {
         row--;
         col--;
-        checkMatrixBounds(row, col);
+        // checkMatrixBounds(row, col);
         if (open[row][col]) {
             return;
         }
         open[row][col] = true;
         int linearIndex = matrixToLinear(row, col);
-        if (isTop(row, col)) {
+        if (row == 0) { // top
             weightedQuickUnionUF.union(linearIndex, virtualTop);
         }
-        if (isBottom(row, col)) {
+        if (row == n - 1) { // bottom
             weightedQuickUnionUF.union(linearIndex, virtualBottom);
         }
         int neighbours[][] = new int[][]{
@@ -74,28 +74,46 @@ public class Percolation {
         }
     }
 
-    private boolean isBottom(int row, int col) {
-        return row == n - 1;
-    }
-
     private int matrixToLinear(int row, int col) {
         return (row * n) + col;
     }
 
-    private boolean isTop(int row, int col) {
-        return row == 0;
-    }
-
-    private void checkMatrixBounds(int row, int col) {
+   /* private void checkMatrixBounds(int row, int col) {
         if (row < 0 || row >= n || col < 0 || col >= n) {
             throw new IllegalArgumentException();
         }
-    }
+    }*/
 
     private boolean isWithinMatrixBounds(int row, int col) {
         return !(row < 0 || row >= open.length || col < 0 || col >= open.length);
     }
 
+   /* @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer();
+        sb.append("\n\n\n");
+        sb.append("percolates?");
+        sb.append(this.percolates());
+        sb.append("\n");
+        sb.append(String.format("%3.3s", ""));
+        for (int col = 1; col <= n; col++) {
+            sb.append(String.format("%3.3s", col));
+        }
+        for (int row = 1; row <= n; row++) {
+            sb.append("\n");
+            sb.append(String.format("%3.3s", row));
+            for (int col = 1; col <= n; col++) {
+                if (this.isFull(row, col)) {
+                    sb.append(String.format("%3.3s", "|"));
+                } else if (this.isOpen(row, col)) {
+                    sb.append(String.format("%3.3s", " "));
+                } else {
+                    sb.append(String.format("%3.3s", "*"));
+                }
+            }
+        }
+        return sb.toString();
+    }*/
 }
 
 
