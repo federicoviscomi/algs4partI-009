@@ -1,4 +1,4 @@
-package percolation; /******************************************************************************
+/******************************************************************************
  *  Compilation:  javac PercolationVisualizer.java
  *  Execution:    java PercolationVisualizer input.txt
  *  Dependencies: Percolation.java
@@ -18,7 +18,6 @@ package percolation; /**********************************************************
 
 import java.awt.Font;
 
-import algs.Percolation;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;

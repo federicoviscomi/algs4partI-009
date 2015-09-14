@@ -1,5 +1,3 @@
-package algs;
-
 import algs.exception.ContainsCycleException;
 import org.junit.Test;
 

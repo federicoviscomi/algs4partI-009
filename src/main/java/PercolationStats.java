@@ -1,24 +1,8 @@
-package algs;
-
-//import edu.princeton.cs.algs4.StdStats;
-
-//import java.util.Arrays;
+import java.util.Arrays;
 import java.util.Random;
 
 public class PercolationStats {
 
-    /*
-    public static void main(String[] args) {
-        if (args == null || args.length < 2) {
-            throw new IllegalArgumentException();
-        }
-        System.out.println(Arrays.toString(args));
-        int n = Integer.parseInt(args[0]);
-        int t = Integer.parseInt(args[1]);
-        System.out.format("\n%25.25s=%10.10s" +
-                "\n%25.25s=%10.10s" +
-                "\n%25.25s=%10.10s, %10.10s", "mean", StdStats.mean());
-    }*/
 
     private final int[] numberOfSitesOpenedAtExperiment;
     private final int n;
@@ -38,11 +22,27 @@ public class PercolationStats {
         this.numberOfSitesOpenedAtExperiment = new int[numberOfExperiments];
         for (int i = 0; i < numberOfExperiments; i++) {
             numberOfSitesOpenedAtExperiment[i] = 0;
-            experiment(n, i);
+            experiment(i);
         }
     }
 
-    public void experiment(int n, int experimentIndex) {
+    public static void main(String[] args) {
+        if (args == null || args.length < 2) {
+            throw new IllegalArgumentException();
+        }
+        System.out.println(Arrays.toString(args));
+        int n = Integer.parseInt(args[0]);
+        int t = Integer.parseInt(args[1]);
+        PercolationStats percolationStats = new PercolationStats(n, t);
+        System.out.format("\n%25.25s=%10.10s" +
+                "\n%25.25s=%10.10s" +
+                "\n%25.25s=%10.10s, %10.10s", "mean", percolationStats.mean(),
+                "stddev", percolationStats.stddev(),
+                "95% confidence interval", percolationStats.confidenceLo(),
+                percolationStats.confidenceHi());
+    }
+
+    private void experiment(int experimentIndex) {
         Percolation percolation = new Percolation(n);
         Random random = new Random(System.currentTimeMillis());
         while (!percolation.percolates()) {

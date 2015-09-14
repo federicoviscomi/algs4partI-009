@@ -1,11 +1,10 @@
-package algs;
-
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 import java.util.Arrays;
 
 public class Percolation {
-    private final WeightedQuickUnionUF weightedQuickUnionUF;
+    private final WeightedQuickUnionUF quf;
+    private final WeightedQuickUnionUF qufNoVB; // no virtual bottom
     private final boolean[][] open;
     private final int virtualTop;
     private final int virtualBottom;
@@ -19,7 +18,8 @@ public class Percolation {
         int size = n * n + 2;
         this.virtualTop = size - 1;
         this.virtualBottom = size - 2;
-        this.weightedQuickUnionUF = new WeightedQuickUnionUF(size);
+        this.quf = new WeightedQuickUnionUF(size);
+        this.qufNoVB = new WeightedQuickUnionUF(size);
         this.open = new boolean[n][n];
         for (boolean[] anOpen : open) {
             Arrays.fill(anOpen, false);
@@ -27,39 +27,46 @@ public class Percolation {
     }
 
     public boolean isOpen(int row, int col) {
-        row--;
-        col--;
-        //checkMatrixBounds(row, col);
-        return open[row][col];
+        return open[row - 1][col - 1];
     }
 
-    public boolean isFull(int row, int col) {
-        row--;
-        col--;
-        //checkMatrixBounds(row, col);
-        return weightedQuickUnionUF.connected(matrixToLinear(row, col), virtualTop);
+    public boolean isFull(int i, int j) {
+        int row = i - 1;
+        int col = j - 1;
+
+        // not open
+        if (!open[row][col]) {
+            return false;
+        }
+
+        //  open
+        if (row == 0) {
+            // top row
+            return true;
+        }
+        return qufNoVB.connected(matrixToLinear(row, col), virtualTop);
     }
 
     public boolean percolates() {
-        return weightedQuickUnionUF.connected(virtualTop, virtualBottom);
+        return quf.connected(virtualBottom, virtualTop);
     }
 
-    public void open(int row, int col) {
-        row--;
-        col--;
-        // checkMatrixBounds(row, col);
+    public void open(int i, int j) {
+        int row = i - 1;
+        int col = j - 1;
         if (open[row][col]) {
             return;
         }
         open[row][col] = true;
         int linearIndex = matrixToLinear(row, col);
         if (row == 0) { // top
-            weightedQuickUnionUF.union(linearIndex, virtualTop);
+            quf.union(linearIndex, virtualTop);
+            qufNoVB.union(linearIndex, virtualTop);
         }
         if (row == n - 1) { // bottom
-            weightedQuickUnionUF.union(linearIndex, virtualBottom);
+            quf.union(linearIndex, virtualBottom);
         }
-        int neighbours[][] = new int[][]{
+        int[][] neighbours = new int[][]{
                 new int[]{row - 1, col},
                 new int[]{row + 1, col},
                 new int[]{row, col - 1},
@@ -68,7 +75,8 @@ public class Percolation {
         for (int[] neighbour : neighbours) {
             if (isWithinMatrixBounds(neighbour[0], neighbour[1])) {
                 if (open[neighbour[0]][neighbour[1]]) {
-                    weightedQuickUnionUF.union(linearIndex, matrixToLinear(neighbour[0], neighbour[1]));
+                    quf.union(linearIndex, matrixToLinear(neighbour[0], neighbour[1]));
+                    qufNoVB.union(linearIndex, matrixToLinear(neighbour[0], neighbour[1]));
                 }
             }
         }

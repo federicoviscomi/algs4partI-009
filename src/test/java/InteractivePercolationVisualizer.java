@@ -1,4 +1,4 @@
-package percolation; /******************************************************************************
+/******************************************************************************
  *  Compilation:  javac InteractivePercolationVisualizer.java
  *  Execution:    java InteractivePercolationVisualizer N
  *  Dependencies: PercolationVisualizer.java Percolation.java
@@ -11,12 +11,8 @@ package percolation; /**********************************************************
  *
  ******************************************************************************/
 
-import algs.Percolation;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class InteractivePercolationVisualizer {
 
