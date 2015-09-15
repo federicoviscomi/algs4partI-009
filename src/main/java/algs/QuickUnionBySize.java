@@ -363,14 +363,14 @@ public class QuickUnionBySize {
     /*
     public ArrayList<UnionArguments> divideAll() {
         ArrayList<UnionArguments> reverseUnionList = new ArrayList<>();
-        while (componentsCount < id.length) {
+        while (componentsCount < successors.length) {
             divideOneStep(reverseUnionList);
         }
         return reverseUnionList;
     }
     private void divideOneStep(ArrayList<UnionArguments> reverseUnionList) {
         int firstRootNonLeaf = 0;
-        while (firstRootNonLeaf < id.length) {
+        while (firstRootNonLeaf < successors.length) {
             if (isRoot(firstRootNonLeaf) && !isLeaf(firstRootNonLeaf)) {
                 ArrayList<Integer> children = getChilds(firstRootNonLeaf);
                 children.sort(new Comparator<Integer>() {
@@ -396,7 +396,7 @@ public class QuickUnionBySize {
         if (!this.connected(p, pRoot) || p == pRoot || getRoot(p) != pRoot) {
             throw new IllegalArgumentException();
         }
-        id[p] = p;
+        successors[p] = p;
         sizes[pRoot] = sizes[pRoot] - sizes[p];
     }*/
 }

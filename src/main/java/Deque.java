@@ -1,5 +1,3 @@
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -16,7 +14,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
-        throw new NotImplementedException();
+        // TODO
     }
 
     public boolean isEmpty() {
@@ -31,7 +29,9 @@ public class Deque<Item> implements Iterable<Item> {
     public void addFirst(Item item) {
         if (this.front == null) {
             assert this.end == null;
-            this.front = this.end = new Node<>(item);
+            Node<Item> newNode = new Node<>(item);
+            this.front = newNode;
+            this.end = newNode;
         } else if (this.front == this.end) {
             Node<Item> newNode = new Node<>(item);
             newNode.next = this.front;
@@ -39,7 +39,7 @@ public class Deque<Item> implements Iterable<Item> {
             this.end.prev = newNode;
         } else {
             assert this.end != null;
-            Node<Item> newNode = new Node<Item>(item, this.front, null);
+            Node<Item> newNode = new Node<>(item, this.front, null);
             this.front.prev = newNode;
             this.front = newNode;
         }
@@ -50,7 +50,9 @@ public class Deque<Item> implements Iterable<Item> {
     public void addLast(Item item) {
         if (this.front == null) {
             assert this.end == null;
-            this.front = this.end = new Node<>(item);
+            Node<Item> newNode = new Node<>(item);
+            this.front = newNode;
+            this.end = newNode;
         } else if (this.front == this.end) {
             Node<Item> newNode = new Node<>(item);
             newNode.prev = this.end;
@@ -74,12 +76,15 @@ public class Deque<Item> implements Iterable<Item> {
         }
         item = this.front.item;
         if (this.front == this.end) {
-            this.front = this.end = null;
+            this.front = null;
+            this.end = null;
         } else {
             assert this.end != null;
             assert this.front.next != null;
 
-            this.front = this.front.next;
+            Node<Item> newFront = this.front.next;
+            newFront.prev = null;
+            this.front = newFront;
         }
         size--;
         return item;
@@ -99,7 +104,9 @@ public class Deque<Item> implements Iterable<Item> {
             assert this.front != null;
             assert this.end.prev != null;
 
-            this.end = this.end.prev;
+            Node<Item> newEnd = this.end.prev;
+            newEnd.next = null;
+            this.end = newEnd;
         }
         size--;
         return item;
@@ -125,18 +132,13 @@ public class Deque<Item> implements Iterable<Item> {
                 nextNode = nextNode.next;
                 return nextItem;
             }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
         };
     }
 
     private static final class Node<Item> {
-        public final Item item;
-        public Node<Item> next;
-        public Node<Item> prev;
+        final Item item;
+        Node<Item> next;
+        Node<Item> prev;
 
         public Node(Item item, Node<Item> next, Node<Item> prev) {
             if (item == null) {
@@ -148,11 +150,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public Node(Item item) {
-            if (item == null) {
-                throw new NullPointerException();
-            }
-            this.item = item;
-            this.next = this.prev = null;
+            this(item, null, null);
         }
     }
 }
