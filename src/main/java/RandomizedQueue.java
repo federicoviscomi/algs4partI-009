@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private static final int DEFAULT_INITIAL_AND_MIN_CAPACITY = 10;
-    private static final int SHUFFLE_THRESHOLD = 5;
     private int size;
     private Item[] elements;
 
@@ -34,35 +33,42 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public void enqueue(Item item) {
-        grow();
+        if (item == null) {
+            throw new NullPointerException();
+        }
+        if (size == this.elements.length) {
+            this.elements = Arrays.copyOf(elements, 2 * this.elements.length);
+        }
         this.elements[size] = item;
         size++;
     }
 
-    private void grow() {
-        if (size == this.elements.length) {
-            this.elements = Arrays.copyOf(elements, 2 * this.elements.length);
-        }
-    }
-
     public Item dequeue() {
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        if (size == 1) {
+            Item dequeued = this.elements[0];
+            size--;
+            this.elements[0] = null;
+            return dequeued;
+        }
         int peek = StdRandom.uniform(size);
         Item dequeued = this.elements[peek];
-        this.elements[peek] = this.elements[size];
-        this.elements[size] = null;
+        this.elements[peek] = this.elements[size - 1];
+        this.elements[size - 1] = null;
         size--;
-        shrink();
-        return dequeued;
-    }
-
-    private void shrink() {
         if (size <= this.elements.length / 4) {
             int capacity = Math.max(DEFAULT_INITIAL_AND_MIN_CAPACITY, this.elements.length / 2);
             this.elements = Arrays.copyOf(elements, capacity);
         }
+        return dequeued;
     }
 
     public Item sample() {
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
         int sampleIndex = StdRandom.uniform(size);
         Item sample = this.elements[sampleIndex];
         return sample;

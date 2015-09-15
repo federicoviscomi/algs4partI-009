@@ -99,7 +99,8 @@ public class Deque<Item> implements Iterable<Item> {
         }
         item = this.end.item;
         if (this.front == this.end) {
-            this.front = this.end = null;
+            this.front = null;
+            this.end = null;
         } else {
             assert this.front != null;
             assert this.end.prev != null;
@@ -136,9 +137,9 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     private static final class Node<Item> {
-        final Item item;
-        Node<Item> next;
-        Node<Item> prev;
+        private final Item item;
+        private Node<Item> next;
+        private Node<Item> prev;
 
         public Node(Item item, Node<Item> next, Node<Item> prev) {
             if (item == null) {

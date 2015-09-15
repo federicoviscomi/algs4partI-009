@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.StdIn;
 
 import java.util.Iterator;
-import java.util.StringTokenizer;
+import java.util.NoSuchElementException;
 
 public class Subset {
     public static void main(String[] args) {
@@ -13,15 +13,14 @@ public class Subset {
             throw new IllegalArgumentException();
         }
         RandomizedQueue<String> randomizedQueue = new RandomizedQueue<>();
-        String line = StdIn.readLine();
-        StringTokenizer stringTokenizer = new StringTokenizer(line);
-        while (stringTokenizer.hasMoreTokens()) {
-            randomizedQueue.enqueue(stringTokenizer.nextToken());
+        String next;
+        try {
+            while ((next = StdIn.readString()) != null) {
+                randomizedQueue.enqueue(next);
+            }
+        } catch (NoSuchElementException e) {
+            // not an error
         }
-        if (k > randomizedQueue.size()) {
-            throw new IllegalArgumentException();
-        }
-
         Iterator<String> iterator = randomizedQueue.iterator();
         for (int i = 0; i < k; i++) {
             System.out.println(iterator.next());
